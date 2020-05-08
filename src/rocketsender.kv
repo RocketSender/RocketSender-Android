@@ -1,0 +1,602 @@
+#:import Clipboard kivy.core.clipboard.Clipboard
+
+<StartScreen>:
+	name: 'start_screen'
+
+<RegisterScreen>:
+	name: 'registration'
+
+<ConfirmEmailScreen>:
+	name: 'confirm_email'
+
+<ChatsScreen>:
+	name: 'chats'
+
+<AddChatScreen>:
+	name: 'add_chat'
+
+<MessageScreen>:
+	name: 'messages'
+
+<InfoRegisterScreen>:
+	name: 'register_info'
+
+<ReadPrivateKey>:
+	#:import ZBarCam kivy_garden.zbarcam.ZBarCam
+	name: 'read_key'
+
+<RebootScreen>:
+	name: 'reboot_app'
+
+<SettingsScreen>:
+	name: 'settings_screen'
+
+<EditChatScreen>:
+	name: 'edit_chat'
+
+<AboutScreen>:
+	name: 'about'
+
+<MyMessageLabel>:
+	id: main_layout
+    size_hint_y: None
+    height: label.height
+    anchor_x: 'right'
+	MDLabel:
+		id: label
+		text: root.text
+		halign: 'left'
+		size_hint: None, None
+		canvas.before:
+			Color:
+				rgb: main_layout.color_out
+			RoundedRectangle:
+				pos: self.x - dp(10), self.y - dp(10)
+				size: self.width + dp(10), self.height + dp(20)
+				radius: [20]
+
+<OtherMessageLabel>:
+	id: main_layout
+    size_hint_y: None
+    height: label.height
+    anchor_x: 'left'
+    color_out: (0, 0, 0, 0)
+    MDLabel:
+        id: label
+        text: root.text
+		size_hint: None, None
+		halign: 'left'
+		canvas.before:
+			Color:
+				rgb: main_layout.color_out
+			RoundedRectangle:
+				pos: self.x - dp(10), self.y - dp(10)
+				size: self.width + dp(10), self.height + dp(20)
+				radius: [20]
+
+<Logo>:
+	BoxLayout:
+		size_hint: .4, .4
+		orientation: 'vertical'
+		pos_hint: {'center_x': .5, 'center_y': .65}
+
+		Image:
+			source: os.path.join('data', 'img', 'logo.png')
+			size_hint: 1, 1
+
+		MDLabel:
+			halign: 'center'
+			text: 'RocketSender'
+			font_style: 'H5'
+
+
+<StartScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        title: "Login to your account"
+	        specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: 0.6, 0.35
+		pos_hint: {'center_x': .5, 'center_y': .25}
+		spacing: 10
+
+	    MDTextField:
+	        id: start_screen_login
+	        required: True
+	        multiline: False
+	        hint_text: 'Login'
+	        helper_text_mode: 'on_error'
+	        helper_text: 'Enter login'
+
+	    MDTextField:
+	        id: start_screen_password
+	        multiline: False
+	        password: True
+	        hint_text: 'Password'
+	        required: True
+	        helper_text: 'Enter password'
+	        helper_text_mode: 'on_error'
+
+		MDFillRoundFlatButton:
+            text: "Sign In"
+            markup: True
+            size_hint: 1, 1
+            on_release: root.on_sign_in()
+            font_size: 18
+
+		MDFillRoundFlatButton:
+            text: "Sign Up"
+            markup: True
+            size_hint: 1, 1
+            on_release: root.on_reg()
+            font_size: 18
+        MDLabel:
+            id: login_error
+            text: ''
+            theme_text_color:'Error'
+
+
+<RegisterScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        title: "Registration"
+	        left_action_items: [["arrow-left", root.go_to_login]]
+	        specific_text_color: [0, 0, 0, 1]
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: 0.6, 0.5
+		pos_hint: {'center_x': .5, 'center_y': .25}
+		spacing: 10
+
+	    MDTextField:
+	        id: register_screen_email
+	        required: True
+	        multiline: False
+	        hint_text: 'Email'
+	        helper_text_mode: 'on_error'
+	        helper_text: 'Enter email'
+	        on_focus: register_screen_error.text = ''
+
+	    MDTextField:
+	        id: register_screen_login
+	        required: True
+	        multiline: False
+	        hint_text: 'Login'
+	        helper_text_mode: 'on_error'
+	        helper_text: 'Enter login'
+	        on_focus: register_screen_error.text = ''
+
+	    MDTextField:
+	        id: register_screen_password
+	        multiline: False
+	        password: True
+	        hint_text: 'Password'
+	        required: True
+	        helper_text: 'Enter password'
+	        helper_text_mode: 'on_error'
+	        on_focus: register_screen_error.text = ''
+
+	    MDTextField:
+	        id: register_screen_password_2
+	        multiline: False
+	        password: True
+	        hint_text: 'Enter password again'
+	        required: True
+	        helper_text: 'Enter password'
+	        helper_text_mode: 'on_error'
+	        on_focus: register_screen_error.text = ''
+
+		MDFillRoundFlatButton:
+            text: "Sign Up"
+            markup: True
+            size_hint: 1, 1
+            on_release: root.init_registration()
+            font_size: 18
+
+        MDLabel:
+            id: register_screen_error
+            text: ''
+            theme_text_color:'Error'
+
+
+<InfoRegisterScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        title: "Important information"
+	        specific_text_color: [0, 0, 0, 1]
+
+	AnchorLayout:
+		anchor_x: 'center'
+		anchor_y: 'center'
+	    MDLabel:
+	        size_hint: .8, 1
+	        font_style: 'H6'
+	        halign: 'center'
+	        text: 'Attention!\n When registering an account, a private key is generated to encrypt your messages. This ensures complete privacy during communication. If you forget your password, all messages will be deleted during recovery. If you uninstall the application and do not save the private key, the messages will be deleted.'
+	        theme_text_color: 'Error'
+
+	AnchorLayout:
+		anchor_x: 'center'
+		anchor_y: 'bottom'
+		padding: 30
+		MDFillRoundFlatButton:
+			size_hint_x: .5
+			text: 'Ok'
+			on_release: root.manager.current = 'chats'
+
+
+<ConfirmEmailScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        title: "Email verification"
+	        left_action_items: [["arrow-left", root.go_to_registration]]
+	        specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: 0.9, 0.1
+		pos_hint: {'center_x': .5, 'center_y': .35}
+		spacing: 10
+
+		MDLabel:
+			text: 'Enter code'
+			halign: 'center'
+			font_style: 'H6'
+
+		MDLabel:
+			text: 'We sent an mail with a verification code to your'
+			halign: 'center'
+			theme_text_color: "Secondary"
+
+		MDLabel:
+			id: confirm_email_screen_email
+			theme_text_color: "Secondary"
+			text: ''
+			halign: 'center'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: .5, .13
+		pos_hint: {'center_x': .5, 'center_y': .2}
+
+		MDTextField:
+			id: confirm_email_screen_token
+			type: 'text'
+
+		MDFillRoundFlatButton:
+			id: confirm_email_screen_button
+			disabled: False
+			size_hint: 1, 1
+			text: 'Confirm'
+			font_size: 18
+			on_release: root.on_registration_complete()
+
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: .5, .07
+		pos_hint: {'center_x': .5, 'center_y': .07}
+		MDLabel:
+			id: confirm_email_screen_timer
+			text: ''
+			halign: 'center'
+			theme_text_color: 'Secondary'
+		MDLabel:
+			id: confirm_email_screen_error
+			text: ''
+			theme_text_color:'Error'
+			halign: 'center'
+
+
+
+<ChatsScreen>:
+	MDToolbar:
+		pos_hint: {'top': 1}
+	    id: chats_screen_toolbar
+	    title: "Chats"
+	    right_action_items: [["circle-edit-outline", root.go_to_create_chat]]
+	    md_bg_color: [247/255, 247/255, 247/255, 1]
+	    specific_text_color: [0, 0, 0, 1]
+
+	ScrollView:
+		y: -chats_screen_toolbar.height
+		MDList:
+			id: chats_screen_chats
+
+    MDToolbar:
+        title: ""
+        #type: "bottom"
+        mode: "free-end"
+        right_action_items: [[os.path.join('data', 'img', 'settings.png'), root.go_to_settings]]
+        left_action_items: [[os.path.join('data', 'img', 'chats_selected.png'), lambda x: x]]
+	    md_bg_color: [247/255, 247/255, 247/255, 1]
+
+
+<AddChatScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        id: toolbar
+	        title: "Create chat"
+	        left_action_items: [["arrow-left", root.go_to_chats]]
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		id: first_layout
+		orientation: 'vertical'
+		y: root.height - toolbar.height - (root.height * (self.size_hint[1] + .1))
+		size_hint: 1, .3
+		spacing: 10
+		SmartTileWithLabel:
+			box_color: [0, 0, 0, 0]
+			allow_stretch: False
+			id: create_chat_screen_image
+			size_hint: 1, .8
+		MDFillRoundFlatButton:
+			text: 'Upload photo'
+			size_hint: .5, .2
+			pos_hint: {'center_x': .5}
+			on_release: root.on_upload_photo()
+
+	BoxLayout:
+		orientation: 'vertical'
+		y: root.height - toolbar.height - (root.height * (first_layout.size_hint[1] + .1)) - (root.height * (self.size_hint[1] + .1))
+		size_hint: 1, .3
+		spacing: 5
+
+		MDTextField:
+			id: create_chat_screen_username
+			hint_text: '@username'
+			size_hint: .5, 1
+			pos_hint: {'center_x': .5}
+
+		MDTextField:
+			id: create_chat_screen_name
+			size_hint: .5, 1
+			hint_text: 'Name'
+			pos_hint: {'center_x': .5}
+
+		MDFillRoundFlatButton:
+			text: 'Save'
+			pos_hint: {'center_x': .5}
+			size_hint: .5, .8
+			on_release: root.on_create_chat()
+
+		MDLabel:
+			id: create_chat_screen_error
+			text: ''
+			theme_text_color:'Error'
+			halign: 'center'
+
+<EditChatScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        id: toolbar
+	        title: "Edit chat"
+	        left_action_items: [["arrow-left", root.go_to_chats]]
+	        specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		id: first_layout
+		orientation: 'vertical'
+		y: root.height - toolbar.height - (root.height * (self.size_hint[1] + .1))
+		size_hint: 1, .3
+		spacing: 10
+		SmartTileWithLabel:
+			box_color: [0, 0, 0, 0]
+			allow_stretch: False
+			id: create_chat_screen_image
+			size_hint: 1, .8
+		MDFillRoundFlatButton:
+			text: 'Upload photo'
+			size_hint: .5, .2
+			pos_hint: {'center_x': .5}
+			on_release: root.on_upload_photo()
+
+	BoxLayout:
+		orientation: 'vertical'
+		y: root.height - toolbar.height - (root.height * (first_layout.size_hint[1] + .1)) - (root.height * (self.size_hint[1] + .1))
+		size_hint: 1, .3
+		spacing: 5
+
+		MDTextField:
+			id: create_chat_screen_username
+			hint_text: '@username'
+			size_hint: .5, 1
+			pos_hint: {'center_x': .5}
+			disabled: True
+
+		MDTextField:
+			id: create_chat_screen_name
+			size_hint: .5, 1
+			hint_text: 'Name'
+			pos_hint: {'center_x': .5}
+
+		MDFillRoundFlatButton:
+			text: 'Save'
+			pos_hint: {'center_x': .5}
+			size_hint: .5, .8
+			on_release: root.on_edit_chat()
+
+		MDLabel:
+			id: create_chat_screen_error
+			text: ''
+			theme_text_color:'Error'
+			halign: 'center'
+
+<MessageScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        id: toolbar
+	        title: ""
+	        left_action_items: [["arrow-left", root.go_to_chats]]
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        specific_text_color: [0, 0, 0, 1]
+
+	ScrollView:
+		id: text_test
+		do_scroll_x: False
+		y: root.height - toolbar.height - self.size[1] - dp(10)
+		size_hint: None, None
+		size: root.width, root.height - toolbar.height - message_input.height - dp(30)
+		MDList:
+			padding: dp(15)
+			spacing: '36dp'
+			id: messages_list
+
+	AnchorLayout:
+		id: message_lay
+		anchor_x: 'center'
+		anchor_y: 'bottom'
+		padding: 10
+		MDTextFieldRound:
+			id: message_input
+			multiline: True
+	        hint_text: 'Type your message'
+	        size_hint: None, None
+	        pos_hint: {'center_x': .5}
+	        size: root.width * .7, dp(30)
+
+	MDIconButton:
+	    icon: 'send'
+	    pos: root.width * .88, message_input.pos[1] - dp(10)
+	    on_release: root.on_send_message()
+
+
+<ReadPrivateKey>:
+	MDToolbar:
+		pos_hint: {'top': 1}
+	    id: toolbar
+	    md_bg_color: [247/255, 247/255, 247/255, 1]
+	    title: "Read private key"
+	    specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		y: -toolbar.height
+		orientation: 'vertical'
+		size_hint: 1, .8
+	    ZBarCam:
+	        id: zbarcam
+	    MDLabel:
+	        text: 'Checking...' if root.on_read(zbarcam.symbols) else 'Reading...'
+	        halign: 'center'
+
+
+<RebootScreen>:
+	MDToolbar:
+		pos_hint: {'top': 1}
+	    id: toolbar
+	    md_bg_color: [247/255, 247/255, 247/255, 1]
+	    title: "Apply Settings"
+	    specific_text_color: [0, 0, 0, 1]
+
+	BoxLayout:
+		y: root.height - toolbar.height - root.height * .7
+		x: root.width - root.width * .5 - root.width * .25
+		orientation: 'vertical'
+		size_hint: .5, .2
+		spacing: 10
+
+		MDLabel:
+			text: 'Private key read successfully. Reboot the RocketSender to apply the settings.'
+			halign: 'center'
+			font_style: 'H6'
+
+		MDFillRoundFlatButton:
+			text: 'Exit'
+			on_release: root.app_exit()
+			size_hint: 1, .6
+
+
+<SettingsScreen>:
+	MDToolbar:
+		pos_hint: {'top': 1}
+	    id: toolbar
+	    title: "Settings"
+	    md_bg_color: [247/255, 247/255, 247/255, 1]
+	    specific_text_color: [0, 0, 0, 1]
+
+	ScrollView:
+		id: items
+		do_scroll_x: False
+		y: root.height - toolbar.height - self.size[1] - dp(10)
+		size_hint: None, None
+		size: root.width, root.height - toolbar.height
+		MDList:
+			id: messages_list
+			TwoLineIconListItem:
+				id: username
+				text: 'Username'
+				secondary_text: ''
+				on_release:
+					Clipboard.copy(self.secondary_text)
+				ImageLeftWidget:
+					source: os.path.join('data', 'img', 'username.png')
+
+			OneLineAvatarListItem:
+				text: 'Help project'
+				on_release: root.on_help_project()
+				ImageLeftWidget:
+					source: os.path.join('data', 'img', 'sponsor.png')
+
+			OneLineAvatarListItem:
+				text: 'About'
+				on_release: root.go_to_about()
+				ImageLeftWidget:
+					source: os.path.join('data', 'img', 'about_icon.png')
+
+	MDFlatButton:
+		size_hint: .5, .1
+		pos_hint: {'center_x': .5, 'center_y': .15}
+        text: "Log out"
+        text_color: [1, 18/255, 57/255, 1]
+        on_release: root.on_logout()
+
+
+    MDToolbar:
+        md_bg_color: [247/255, 247/255, 247/255, 1]
+        title: ""
+        #type: "bottom"
+        mode: "free-end"
+        right_action_items: [[os.path.join('data', 'img', 'settings_selected.png'), lambda x: x]]
+        left_action_items: [[os.path.join('data', 'img', 'chats.png'), root.go_to_chats]]
+
+
+<AboutScreen>:
+	AnchorLayout:
+		anchor_x: 'left'
+		anchor_y: 'top'
+	    MDToolbar:
+	        id: toolbar
+	        title: "About"
+	        left_action_items: [["arrow-left", root.go_to_settings]]
+	        md_bg_color: [247/255, 247/255, 247/255, 1]
+	        specific_text_color: [0, 0, 0, 1]
+
+
+	MDLabel:
+		pos_hint: {'center_x': .5, 'center_y': .35}
+		size_hint: .9, 1
+		text: "Rocket Sender is an open-source instant messaging app which main feature is a complete privacy. On our server we don't store any data related to you even your email that you have used for registration.\nOur team:\n    [b]Vladimir Alexeev[/b] [color=#2a66a4][ref=https://github.com/vovo2dev]GitHub[/ref] [ref=mailto:vladimiralekxeev@yandex.ru]Email[/ref][/color]\n    [b]Rybalko Oleg[/b] [color=#2a66a4][ref=https://instagram.com/rybalko._.oleg]Instagram[/ref] [ref=https://github.com/SkullMag]GitHub[/ref] [ref=https://www.reddit.com/user/skullmag]Reddit[/ref] [ref=mailto:rybalko.oleg.123@mail.ru]Email[/ref][/color]"
+		markup: True
+		halign: 'left'
+		on_ref_press: root.on_open_refs(args[1])
