@@ -1,7 +1,7 @@
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
-[![issue](https://img.shields.io/github/issues/RocketSender/RocketSender-Android)](https://github.com/RocketSender/RocketSender-Android/issues)
+[![Platform](https://img.shields.io/badge/Platform-Android-brightgreen)](https://www.android.com/)
 [![license](https://img.shields.io/github/license/RocketSender/RocketSender-Android)](https://github.com/RocketSender/RocketSender-Android/blob/master/LICENSE)
-[![followers](https://img.shields.io/github/followers/RocketSender?style=social)](https://github.com/RocketSender?tab=followers)
+[![issue](https://img.shields.io/github/issues/RocketSender/RocketSender-Android)](https://github.com/RocketSender/RocketSender-Android/issues)
 [![commits](https://img.shields.io/github/last-commit/RocketSender/RocketSender-Android)](https://github.com/RocketSender/RocketSender-Android/commits/)
 # Rocket Sender Android App
 This is a mobile version of Rocket Sender. Also check [Desktop](https://github.com/RocketSender/RocketSender-Client) and [Server](https://github.com/RocketSender/RocketSender-Server)
